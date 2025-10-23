@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block titulo %}Clientes | Petco{% endblock %}
+
+{% block contenido %}
+<div class="page-header">
+    <h2>Clientes Registrados</h2>
+    <a href="{% url 'app_petco:crear_cliente' %}" class="btn btn-primary">+ Registrar Cliente</a>
+</div>
+
+<ul class="item-grid">
+    {% for cliente in clientes %}
+    <li class="item-card">
+        <a href="{% url 'app_petco:detalle_cliente' cliente.id_cliente %}">
+            <div class="item-placeholder">👥</div>
+            <h3>{{ cliente.nombre }} {{ cliente.apellido }}</h3>
+            <p class="item-info">{{ cliente.email }}</p>
+            <p class="item-owner">Mascotas: {{ cliente.mascotas.count }}</p>
+        </a>
+    </li>
+    {% empty %}
+    <li class="no-items">No hay clientes registrados.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

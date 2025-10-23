@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block titulo %}Eliminar Cliente | Petco{% endblock %}
+
+{% block contenido %}
+<h2>¿Estás seguro de que quieres borrar a "{{ cliente.nombre }} {{ cliente.apellido }}"?</h2>
+<p>Al borrar este cliente, también se eliminarán todas sus mascotas asociadas.</p>
+<form method="post">
+    {% csrf_token %}
+    <div class="actions">
+        <button type="submit" class="btn btn-danger">Sí, Borrar</button>
+        <a href="{% url 'app_petco:detalle_cliente' cliente.id_cliente %}" class="btn">Cancelar</a>
+    </div>
+</form>
+{% endblock %}

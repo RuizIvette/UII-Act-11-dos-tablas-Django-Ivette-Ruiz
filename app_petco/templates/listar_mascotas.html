@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block titulo %}Mascotas | Petco{% endblock %}
+
+{% block contenido %}
+<div class="page-header">
+    <h2>Mascotas Registradas</h2>
+    <a href="{% url 'app_petco:crear_mascota' %}" class="btn btn-primary">+ Registrar Mascota</a>
+</div>
+
+<ul class="item-grid"> {# Cambiado de artist-grid a item-grid para generalizar #}
+    {% for mascota in mascotas %}
+    <li class="item-card"> {# Cambiado de artist-card a item-card #}
+        <a href="{% url 'app_petco:detalle_mascota' mascota.id_mascota %}">
+            {% if mascota.foto_mascota %}
+                <img src="{{ mascota.foto_mascota.url }}" alt="Foto de {{ mascota.nombre }}" class="item-img"> {# item-img #}
+            {% else %}
+                <div class="item-placeholder">🐶</div> {# item-placeholder #}
+            {% endif %}
+            <h3>{{ mascota.nombre }}</h3>
+            <p class="item-info">{{ mascota.especie }} ({{ mascota.raza|default:"N/A" }})</p> {# item-info #}
+            <p class="item-owner">Dueño: {{ mascota.cliente.nombre }} {{ mascota.cliente.apellido }}</p>
+        </a>
+    </li>
+    {% empty %}
+    <li class="no-items">No hay mascotas registradas.</li> {# no-artists a no-items #}
+    {% endfor %}
+</ul>
+{% endblock %}

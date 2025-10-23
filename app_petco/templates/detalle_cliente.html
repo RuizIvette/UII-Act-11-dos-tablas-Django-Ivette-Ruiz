@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ cliente.nombre }} {{ cliente.apellido }} | Petco{% endblock %}
+
+{% block contenido %}
+<article class="detail-container">
+    <div class="detail-banner">
+        <div class="detail-placeholder">👤</div>
+        <div class="detail-info">
+            <h1>{{ cliente.nombre }} {{ cliente.apellido }}</h1>
+            <h3>Contacto:</h3>
+            <p><strong>Email:</strong> {{ cliente.email }}</p>
+            <p><strong>Teléfono:</strong> {{ cliente.telefono|default:"N/A" }}</p>
+            <p><strong>Dirección:</strong> {{ cliente.direccion|default:"N/A" }}</p>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="{% url 'app_petco:editar_cliente' cliente.id_cliente %}" class="btn btn-secondary">✏️ Editar Cliente</a>
+        <a href="{% url 'app_petco:borrar_cliente' cliente.id_cliente %}" class="btn btn-danger">🗑️ Borrar Cliente</a>
+    </div>
+
+    <section class="related-items-section"> {# Cambiado de songs-section a related-items-section #}
+        <h2>Mascotas de {{ cliente.nombre }}</h2>
+        {% if cliente.mascotas.all %}
+        <ul class="item-list"> {# Cambiado de song-list a item-list #}
+            {% for mascota in cliente.mascotas.all %}
+            <li><a href="{% url 'app_petco:detalle_mascota' mascota.id_mascota %}">{{ mascota.nombre }} ({{ mascota.especie }})</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-message">Este cliente no tiene mascotas registradas.</p>
+        {% endif %}
+        <div style="margin-top: 1rem;">
+            <a href="{% url 'app_petco:crear_mascota' %}" class="btn btn-primary">➕ Añadir Mascota a {{ cliente.nombre }}</a>
+        </div>
+    </section>
+</article>
+{% endblock %}

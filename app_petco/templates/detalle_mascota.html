@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ mascota.nombre }} | Petco{% endblock %}
+
+{% block contenido %}
+<article class="detail-container"> {# Cambiado de artist-detail a detail-container #}
+    <div class="detail-banner"> {# Cambiado de artist-banner a detail-banner #}
+        {% if mascota.foto_mascota %}
+            <img src="{{ mascota.foto_mascota.url }}" alt="Foto de {{ mascota.nombre }}" class="detail-photo">
+        {% else %}
+            <div class="detail-placeholder">🐾</div>
+        {% endif %}
+        <div class="detail-info"> {# Cambiado de artist-info a detail-info #}
+            <h1>{{ mascota.nombre }}</h1>
+            <h3>{{ mascota.especie }} - {{ mascota.raza|default:"Raza no especificada" }}</h3>
+            <p><strong>Fecha de Nacimiento:</strong> {{ mascota.fecha_nac|default:"N/A" }}</p>
+            <p><strong>Dueño:</strong> <a href="{% url 'app_petco:detalle_cliente' mascota.cliente.id_cliente %}">{{ mascota.cliente.nombre }} {{ mascota.cliente.apellido }}</a></p>
+        </div>
+    </div>
+
+    <div class="detail-actions">
+        <a href="{% url 'app_petco:editar_mascota' mascota.id_mascota %}" class="btn btn-secondary">✏️ Editar Mascota</a>
+        <a href="{% url 'app_petco:borrar_mascota' mascota.id_mascota %}" class="btn btn-danger">🗑️ Borrar Mascota</a>
+    </div>
+
+</article>
+{% endblock %}
